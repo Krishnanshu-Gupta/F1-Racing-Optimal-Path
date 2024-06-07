@@ -1,0 +1,5 @@
+pyglet == 1.5.29
+numpy
+pillow
+torch
+matplotlib

@@ -24,6 +24,32 @@
 
 \section{Project Description}
 
+This project aims to develop an AI-based system capable of learning and 
+navigating an optimal racing path for a user-created Formula 1 (F1) track, 
+achieving the fastest possible lap times. The primary objective is to utilize 
+Neural Networks, Reinforcement Learning, and Evolutionary Algorithm techniques 
+to simulate and optimize the performance of a simulated F1 car under realistic 
+driving conditions such as braking, speed, acceleration, and handling. The 
+project features a graphical user interface (GUI) that visually displays the 
+user-created tracks and the simulated cars, displaying the training process and 
+visualizing the AI's learning progress in real-time.
+
+The system employs Evolutionary  Algorithms inspired by biological evolution to 
+iteratively enhance the racing strategies of the AI-driven F1 cars. These 
+algorithms enable the cars to evolve by selecting the best-performing 
+individuals from each generation and using their characteristics to produce the 
+next generation, thereby gradually improving lap times and overall performance. 
+In combination with this, two separate agents will be developed using Deep 
+Reinforcement Learning and Neural Networks to compare their algorithmic 
+performances.
+
+The goal of this project is to produce an AI that can consistently find and 
+navigate the fastest racing paths on a variety of randomly generated tracks, 
+with complex corners and track shapes. The output will be the optimized paths 
+for the F1 car and the fastest lap times, which will be visualized through the 
+GUI in the later generations, demonstrating the effectiveness of the AI's 
+learning and optimization processes.
+
 \section{Project Design}
 
 The core simulation environment is implemented in Python by Tomas Brezina, whose 
@@ -106,6 +132,75 @@ the weights of the policy network, facilitating the evolutionary process.
 
 \subsection{Neural Network: Optimal Lap Time}
 
+The Neural Network processed input data from the simulated racing environment 
+and output the appropriate actions for the F1 car to navigate the track. The 
+network architecture is a series of layers, each containing a specified number 
+of neurons, and the input layer receives sensory data from the car, such as 
+speed, position, and proximity to track boundaries, which is generated through 
+waypoints in the center of the track. This data is then propagated through 
+hidden layers, where it is transformed by weighted connections and activation 
+functions, ultimately reaching the output layer, which determines the car's 
+actions, such as rotation, speed, and position.
+
+The neural network utilizes various activation functions, including sigmoid, 
+ReLU, tanh, and leaky ReLU, each of which introduces non-linearity into the 
+model, thereby allowing it to capture more complex patterns in the data. This 
+was necessary to deal with especially tricky corners and track designs. These 
+functions are accompanied by their respective derivatives, which are used 
+during backpropagation to compute gradients. We also utilized the Stochastic 
+Gradient Descent (SGD) and Adam optimizers to update the network's weights 
+based on the computed gradients. SGD is simpler and typically faster for 
+small-scale problems, while Adam is more adaptive and can handle more complex 
+scenarios due to its momentum and learning rate adjustment capabilities.
+
+Batch normalization and dropout techniques were also integrated into the 
+network to enhance training efficiency and robustness. Batch normalization 
+usually helps in stabilizing and speeds up the learning process by normalizing 
+the inputs for each layer. Dropout, on the other hand, prevents over-fitting by 
+randomly dropping units during the training process, and making sure that the 
+network also remains generalized. During training, the neural network goes 
+through a forward pass, where the input data is propagated through the layers 
+to generate predictions. Then the algorithm does backpropagation, which 
+re-computes the gradients of the loss function with respect to the network's 
+weights. These gradients are then used by the optimizer to update the weights, 
+minimizing the loss function over time.
+
+The network's architecture and parameters, such as the number of layers, 
+activation functions, batch normalization, and dropout rates, are configurable, 
+allowing for experimentation and optimization to achieve the best performance. 
+Additionally, the network includes functions for saving and loading trained 
+models, enabling persistence and speeding up the training process by utilizing 
+weights that were previously performing well.
+
+\subsection{Evolutionary Algorithm}
+
+The Evolutionary Algorithms are inspired by the principles of natural 
+selection, and these algorithms help evolve a population of neural networks, 
+representing different cars, over multiple generations to improve their racing 
+ability and performance.
+
+The core operations of this algorithm include mutation, crossover, and 
+selection. The mutation process introduces random variations to the network's 
+weights and biases, promoting more exploration of the solution space. Without 
+this, the models may never go down more optimal routes once a singular 
+successful path is found. Crossover combines the weights of two successful 
+parent networks to produce a child network. A portion of the best-performing 
+networks (elites) are directly passed onto the next generation, ensuring that 
+some good solutions are still preserved and not drowned out by poor mutations.
+
+To initiate the evolutionary process, an initial population of neural networks 
+is generated, each with randomly assigned weights. These networks undergo 
+training and evaluation to determine their fitness. The best-performing 
+networks are selected as parents for the next generation, and the mutation and 
+crossover operations are applied to produce new offspring. This process is 
+iterated over multiple generations, with each generation exhibiting improved 
+performance.
+
+The integration of neural networks and evolutionary algorithms enables the AI 
+system to autonomously learn and optimize its racing strategy. The networks 
+continuously improve their ability to navigate the track, adapting to the track 
+conditions and shapes, and refining the cars' racing performance.
+
 \section{Testing}
 
 One of the core functionalities of the project is the simulation environment, 
@@ -130,6 +225,76 @@ in close proximity or approaching intersections or narrow passages
 simultaneously.
 
 \section{Analysis}
+
+\subsection{Discussion of Project}
+
+The project aimed to develop an AI-based system capable of learning and 
+optimizing the racing strategy for navigating Formula 1 (F1) tracks. It 
+utilized Neural Networks, Reinforcement Learning, and Evolutionary Algorithms 
+to simulate and optimize the performance of a simulated F1 car under realistic 
+driving conditions, and optimize the agents' performance over multiple generations.
+
+\subsection{Challenges}
+
+Throughout the project, several challenges were encountered, primarily related 
+to research, platforms, and dealing with existing code. We conducted extensive 
+research and testing to find suitable simulation software and programs to 
+create realistic driving conditions for testing the algorithms. We explored 
+various simulators, including Microsoft AirSim, CARLA, TORCS, Udacity 
+Self-Driving sim, and Carnegie Mellon University's Learn to Race software. 
+However, these options required Linux and expensive Nvidia GPU access, which 
+we did not have access to within our computers. We also tried to utilize Docker 
+and Amazon EC2 instances with GPU enabled, but they proved to be too expensive 
+to run feasibly for the project's scope.
+
+Thus, we pivoted to looking for existing Python simulation code and after 
+testing and trying out hundreds of different repositories related to F1 and 
+racing simulations, we landed on Tomas Brezina's project using Pyglet and 
+Python. We utilized this repository's code for the simulation and track
+generation aspects as a foundation, and then adapted and developed custom 
+Neural Networks and Evolutionary Algorithms. Additionally, we introduced a 
+Reinforcement Learning agent to assess its performance alongside the neural 
+network.
+
+\subsection{Performance}
+
+Both algorithms, Neural Network and Reinforcement Learning, eventually learned 
+and optimized navigation for the track; however, the neural network demonstrated 
+significantly faster convergence and made more effective decisions quickly. 
+
+Typically, 100-150 generations were sufficient to achieve well-performing 
+lap times using the Neural Network algorithm. However, running the code 
+continuously led to faster results and lap-times, even up to generation 
+300-400, albeit at a much slower improvement rate. In contrast, the 
+Reinforcement Learning agent required approximately 300-400 generations to 
+achieve well-performing results on complex tracks due to its slower learning 
+pace and differing design.
+
+\subsection{Suggestions for Extensions}
+
+Our immediate next steps would be to continue fine-tuning the algorithms and 
+their respective hyperparameter, to allow for faster convergence and to improve 
+generalization. Additionally, we would like to incorporate more realistic 
+simulations through more sophisticated environments that simulate real 
+complexities of F1 racing, such as weather and tire degradation. We would also 
+like to recreate existing F1 Tracks, and test our current algorithms on them 
+to analyze differences in lap times and racing lines. 
+
+Longer-scale future plans would include utilizing high-fidelity racing 
+simulators with advanced physics engines and real-world conditions, ideally 
+suited for F1 races. We would also like to design a multi-objective optimization 
+strategy that could help account for and balance objectives like lap times, 
+overtaking, car degradation, and pit stops, including all aspects that real 
+racers and teams have to keep in mind. Furthermore, a side-development could 
+be obtaining real-time race data such as telemetry, lap times, track layouts, 
+and current team performances to create dynamic and accurate simulations for 
+modeling past races and predicting future ones. Lastly, developing a web-based 
+or mobile platform could facilitate collaborative experiences and creating 
+advanced track generation tools allowing custom constraints, obstacles, and 
+environmental conditions could challenge AI in unique ways. By addressing these 
+extensions and future plans, the project can further enhance its capabilities 
+and contribute to the advancement of AI-driven racing strategies in simulated 
+and real-world environments.
 
 \section{Github Repository}
 \href{https://github.com/Krishnanshu-Gupta/F1-Racing-Optimal-Path}{F1 Racing 

@@ -8,3 +8,5 @@ __pycache__
 *.log
 *.out
 *.synctex.gz
+
+*.DS_Store

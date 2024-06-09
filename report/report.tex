@@ -25,8 +25,30 @@
 \section{Project Description}
 
 \section{Project Design}
+Project design: general architecture, components, existing components, APIs. 
+This can also be the submitted design with updated changes.
+
+The core simulation environment is implemented in Python by Tomas Brezina, whose 
+repo provides a track generation as well as a evolutionary algorithm that mutates 
+agents based on a neural network. The \texttt{core.py} file provides classes for 
+managing the track, cars, checkpoints, and collision detections. The 
+\texttt{Simulation} class orchestrates the behavior of cars, updates their 
+positions, and handles the checkpoint tracking.
+
+The reinforcement learning agent is contained in the \texttt{rl\_agent.py} file 
+and contains the \texttt{RLAgent} class, which is used to train the agent and 
+feed the evolutionary algorithm with the best agents. The agent objects are 
+stored and rendered based on the configuration given in the entry point of our 
+project in the \texttt{\_\_main\_\_.py} file.
+
+There are several existing components that we have utilized in our project. We 
+used \texttt{pyglet, NumPy, PyTorch, and Matplotlib}. Pyglet was used for 
+rendering the simulation environment so the graphics and also handling the user 
+input events. 
 
 \section{Implementation}
+
+\subsection{Reinforcement Learning: Deep Q-Learning}
 
 \section{Testing}
 
@@ -34,7 +56,9 @@
 
 \section{Github Repository}
 \href{https://github.com/Krishnanshu-Gupta/F1-Racing-Optimal-Path}{F1 Racing 
-Optimal Path}
+Optimal Path}:
+
+Link: https://github.com/Krishnanshu-Gupta/F1-Racing-Optimal-Path
 
 
 \end{document}

@@ -1,7 +1,7 @@
 
 # F1 Racing - Optimal Path Finder
 
-Simulated F1 cars learn how to drive on randomly generated tracks using reinforcement learning and neural networks coupled with evolutionary algorithms for improvements over many generations.
+Simulated F1 cars learn how to drive on randomly generated tracks using Neural Networks and Deep Reinforcement Learning, coupled with evolutionary algorithms for improvements over many generations.
 
 Run __main__.py in the RL and NN folders to observe the simulation.
 
